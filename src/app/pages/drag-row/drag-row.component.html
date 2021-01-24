@@ -1,0 +1,33 @@
+<nz-table [nzData]="listOfData" [nzFrontPagination]="false" [nzShowPagination]="false">
+    <thead>
+      <tr>
+        <ng-container *ngFor="let col of cols">
+          <th
+          *ngIf="col.width"
+          nz-resizable
+          nzBounds="window"
+          nzPreview
+          [nzWidth]="col.width"
+          [nzMaxWidth]="256"
+          [nzMinWidth]="10"
+          (nzResizeEnd)="onResize($event, col.title)"
+        >
+          {{ col.title }}
+          <nz-resize-handle nzDirection="right">
+            <div class="resize-trigger"></div>
+          </nz-resize-handle>
+        </th>
+        <th *ngIf="!col.width">
+          {{ col.title }}
+        </th>
+        </ng-container>
+      </tr>
+    </thead>
+    <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+      <tr *ngFor="let data of listOfData" cdkDrag>
+        <td *ngFor="let ts of cols">
+            {{ data[ts.fieldName] }}
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>

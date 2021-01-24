@@ -1,0 +1,36 @@
+<nz-table #nzTable [nzData]="tableDataDisplay" nzTableLayout="fixed">
+    <thead>
+      <tr>
+        <ng-container *ngFor="let cc of columnConfig">
+            <th *ngIf="cc.inputFilter === true;else elseBlock" nzCustomFilter>
+                {{ cc.caption }}
+                <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="inputFilterMenu">
+                    <i nz-icon nzType="search"></i>
+                </nz-filter-trigger>
+            </th>
+
+            <ng-template #elseBlock>
+                <th>{{ cc.caption }}</th>
+            </ng-template>
+
+            <nz-dropdown-menu #inputFilterMenu="nzDropdownMenu">
+                <div class="ant-table-filter-dropdown">
+                  <div class="search-box">
+                    <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+                    <button nz-button nzSize="small" nzType="primary" (click)="search(cc.fieldName)" class="search-button">
+                      Search
+                    </button>
+                    <button nz-button nzSize="small" (click)="reset(cc.fieldName)">Reset</button>
+                  </div>
+                </div>
+            </nz-dropdown-menu>
+
+        </ng-container>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of nzTable.data">
+        <td *ngFor="let cc of columnConfig">{{ data[cc.fieldName] }}</td>
+      </tr>
+    </tbody>
+  </nz-table>

@@ -1,0 +1,32 @@
+<div
+class="box"
+nz-resizable
+[nzMaxWidth]="600"
+[nzMinWidth]="10"
+[nzMaxHeight]="200"
+[nzMinHeight]="80"
+[nzDisabled]="disabled"
+[style.height.px]="height"
+[style.width.px]="width"
+(nzResize)="onResize($event)"
+>
+<nz-resize-handles></nz-resize-handles>
+content
+</div>
+
+<nz-table [nzData]="listOfData" [nzFrontPagination]="false" [nzShowPagination]="false">
+    <thead>
+      <tr cdkDropList (cdkDropListDropped)="drop($event)">
+        <th class="colHeader" *ngFor="let item of displayedColumns;let i=index" cdkDrag cdkDragLockAxis="x">
+          <span cdkDragHandle>{{ item.caption }}</span> 
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of listOfData">
+        <td *ngFor="let ts of displayedColumns">
+            {{ data[ts.fieldName] }}
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
